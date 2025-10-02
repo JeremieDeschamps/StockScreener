@@ -4,16 +4,20 @@ body{
     margin:0
 }
 
+
 .wrap{
     max-width:1000px;
     margin:32px auto;
-    padding:16px
+    padding-right:16px;
+    padding-left:16px;
+    padding-bottom:16px;
+    
 }
 
 .card{
     background:#111827;
     border:1px solid #1f2937;
-    border-radius:12px;padding:16px
+    border-radius:12px;padding:5px
 }
 
 input,button,select,textarea{
@@ -90,3 +94,59 @@ textarea{
     width:100%;
     min-height:220px
 }
+
+.navbar {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:#1e293b;
+  color:#f1f5f9;
+  padding:30px 30px;
+  position:sticky;
+  top:0;
+  z-index:1000;
+}
+.navbar .nav-left {
+  font-weight:bold;
+  font-size:18px;
+}
+.navbar .nav-right a {
+  color:#e5e7eb;
+  margin-left:15px;
+  text-decoration:none;
+  font-weight:500;
+}
+.navbar .nav-right a.active {
+  border-bottom:2px solid #22d3ee;
+  padding-bottom:2px;
+}
+.navbar .nav-right a:hover {
+  color:#22d3ee;
+}
+
+/* Toast en bas centré */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1e293b;
+  color: #f1f5f9;
+  padding: 10px 18px;
+  border-radius: 8px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.35);
+  font-size: 14px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 9999;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-6px);
+}
+
+.toast.ok { border: 2px solid #10b981; }   /* succès = vert */
+.toast.error { border: 2px solid #ef4444; } /* erreur = rouge */
+

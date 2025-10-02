@@ -4,6 +4,35 @@ let timer = null;
 const $ = (s) => document.querySelector(s);
 const tbody = $("#tbody"), listSel = $("#listSel"), status = $("#status");
 
+function showToast(msg, kind = "ok", ms = 2000) {
+  const toast = document.getElementById("toast");
+  const text = document.getElementById("toast-text");
+
+  text.textContent = msg;
+  toast.className = "toast " + kind; // reset + ajout type
+  toast.classList.add("show");
+
+  clearTimeout(toast._timer);
+  toast._timer = setTimeout(() => {
+    toast.classList.remove("show");
+  }, ms);
+}
+
+// fermer en cliquant n'importe où sur l'overlay
+document.addEventListener("DOMContentLoaded", () => {
+  const overlay = document.getElementById("toast-overlay");
+  overlay.addEventListener("click", () => {
+    clearTimeout(overlay._timer);
+    overlay.classList.remove("show");
+    overlay.classList.add("hide");
+    setTimeout(() => {
+      overlay.style.display = "none";
+      overlay.classList.remove("hide");
+    }, 200);
+  });
+});
+
+
 // Storage
 function load() {
   try {
@@ -19,6 +48,7 @@ function save() {
 function currentList() {
   return state.lists[state.current] || [];
 }
+
 function renderListSel() {
   const names = Object.keys(state.lists);
   if (names.length === 0) {
@@ -70,17 +100,51 @@ async function fetchAll() {
 }
 
 // UI actions
-$("#add").onclick = function () {
-  const v = $("#sym").value.trim();
-  if (!v) return;
-  const arr = currentList();
-  if (!arr.includes(v)) {
-    state.lists[state.current] = arr.concat([v]);
-    save();
-  }
+$("#add").onclick = async function () {
+  const raw = $("#sym").value.trim();
+  if (!raw) return;
+
+  // on peut coller plusieurs tickers à la fois séparés par virgule/espace
+  const candidates = raw.split(/[, ]+/).map(s => s.trim()).filter(Boolean);
   $("#sym").value = "";
-  fetchAll();
+
+  // validation côté serveur avant d'ajouter
+  try {
+    const url = "/api/quote?tickers=" + encodeURIComponent(candidates.join(","));
+    const res = await fetch(url);
+    const { results = [] } = await res.json();
+
+    // set des valides retournés
+    const validSet = new Set(results.map(r => (r.symbol || "").toUpperCase()));
+    const added = [];
+    const invalid = [];
+
+    for (const c of candidates) {
+      // on compare en uppercase pour éviter les problèmes de casse
+      if (validSet.has(c.toUpperCase())) {
+        if (!currentList().includes(c)) {
+          state.lists[state.current] = currentList().concat([c]);
+          added.push(c);
+        }
+      } else {
+        invalid.push(c);
+      }
+    }
+
+    if (added.length) {
+      save();
+      fetchAll();
+      showToast(`Le ticker ${added.join(", ")} a été ajouté avec succès!`, "ok");
+    }
+    if (invalid.length) {
+      showToast(`Le ticker ${invalid.join(", ")} est introuvable!`, "error");
+    }
+  } catch (e) {
+    console.error(e);
+    showToast("Erreur réseau/serveur lors de la vérification.", "error");
+  }
 };
+
 // Quand on tape "Enter" dans l'input #sym, ça simule un clic sur Ajouter
 $("#sym").addEventListener("keydown", function (e) {
   if (e.key === "Enter") {
@@ -145,6 +209,23 @@ $("#jsonSave").onclick = function () {
     save(); modal.style.display = "none"; fetchAll();
   } catch (e) { alert("JSON invalide: " + e.message); }
 };
+
+// ---- NAVBAR ----
+document.querySelectorAll(".navbar a").forEach((link) => {
+  link.addEventListener("click", (e) => {
+    e.preventDefault();
+    const page = link.dataset.page;
+
+    // toggle active class
+    document.querySelectorAll(".navbar a").forEach((a) => a.classList.remove("active"));
+    link.classList.add("active");
+
+    // toggle visible page
+    document.querySelectorAll(".page").forEach((p) => (p.style.display = "none"));
+    $("#page-" + page).style.display = "block";
+  });
+});
+
 
 // boot
 load(); renderListSel(); fetchAll();

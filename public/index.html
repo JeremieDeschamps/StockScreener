@@ -5,7 +5,55 @@
   <title>Quotes – Watchlists</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
+ <nav class="navbar">
+    <div class="nav-left">💹 Quotes App</div>
+    <div class="nav-right">
+      <a href="#" data-page="watchlist" class="active">Watchlist</a>
+      <a href="#" data-page="portfolio">Portfolio</a>
+      <a href="#" data-page="history">Historique</a>
+      <a href="#" data-page="settings">Paramètres</a>
+    </div>
+  </nav>
+
+  <div class="wrap">
+    <!-- Section Watchlist -->
+    <div class="page" id="page-watchlist">
+      <!-- Ton code watchlist existant (card, listes, tableau) -->
+    </div>
+
+    <!-- Section Portfolio -->
+    <div class="page" id="page-portfolio" style="display:none">
+      <div class="card">
+        <h2>Portfolio</h2>
+        <p>Ici tu pourras gérer ton portefeuille (à coder plus tard).</p>
+      </div>
+    </div>
+
+    <!-- Section Historique -->
+    <div class="page" id="page-history" style="display:none">
+      <div class="card">
+        <h2>Historique</h2>
+        <p>Affichage de l’historique (placeholder).</p>
+      </div>
+    </div>
+
+    <!-- Section Paramètres -->
+    <div class="page" id="page-settings" style="display:none">
+      <div class="card">
+        <h2>Paramètres</h2>
+        <p>Configuration de l’application (placeholder).</p>
+      </div>
+    </div>
+  </div>
+</nav>
+
 <body>
+  <!-- Toast overlay
+<div id="toast-overlay" class="toast-overlay" aria-hidden="true">
+  <div class="toast-box" role="alert" aria-live="polite" aria-atomic="true">
+    <span id="toast-text"></span>
+  </div> -->
+</div>
   <div class="wrap">
     <div class="card">
       <h2>Watchlists (multi-listes)</h2>
@@ -45,7 +93,8 @@
       </table>
     </div>
   </div>
-
+<body>
+ 
   <!-- Modal JSON -->
   <div class="modal" id="jsonModal">
     <div>
@@ -59,6 +108,8 @@
       </div>
     </div>
   </div>
+<!-- Toast en bas d’écran -->
+<div id="toast" class="toast"><span id="toast-text"></span></div>
 
   <script src="app.js"></script>
 </body>
