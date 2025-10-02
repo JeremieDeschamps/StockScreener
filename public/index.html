@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <title>Quotes – Watchlists</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h2>Watchlists (multi-listes)</h2>
+
+      <div class="row">
+        <label>Liste:
+          <select id="listSel"></select>
+        </label>
+        <button id="newList">Nouvelle</button>
+        <button id="renameList">Renommer</button>
+        <button id="deleteList">Supprimer</button>
+        <button id="editJson">Éditer JSON</button>
+        <span class="muted right" id="status">Prêt</span>
+      </div>
+
+      <div class="row">
+        <input id="sym" placeholder="ex: AAPL, SHOP.TO, 036570.KS" />
+        <button id="add">Ajouter</button>
+        <button id="refresh">Rafraîchir</button>
+        <label class="muted">Auto-refresh
+          <select id="auto">
+            <option value="0">off</option>
+            <option value="15">15s</option>
+            <option value="30">30s</option>
+            <option value="60" selected>60s</option>
+          </select>
+        </label>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Ticker</th><th>Nom</th><th>Prix</th><th>Var</th><th>%</th><th>Devise</th><th></th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Modal JSON -->
+  <div class="modal" id="jsonModal">
+    <div>
+      <h3>Éditer la liste en JSON</h3>
+      <p class="muted">Ex: ["AAPL","MSFT","TSLA"]</p>
+      <textarea id="jsonArea"></textarea>
+      <div class="row">
+        <button id="jsonSave">Sauvegarder</button>
+        <button id="jsonCancel">Annuler</button>
+        <span class="muted right" id="jsonHint"></span>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
