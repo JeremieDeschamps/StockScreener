@@ -5,7 +5,9 @@
   <title>Quotes – Watchlists</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
- <nav class="navbar">
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar">
     <div class="nav-left">💹 Quotes App</div>
     <div class="nav-right">
       <a href="#" data-page="watchlist" class="active">Watchlist</a>
@@ -15,86 +17,94 @@
     </div>
   </nav>
 
-  <div class="wrap">
-    <!-- Section Watchlist -->
-    <div class="page" id="page-watchlist">
-      <!-- Ton code watchlist existant (card, listes, tableau) -->
-    </div>
-
-    <!-- Section Portfolio -->
-    <div class="page" id="page-portfolio" style="display:none">
+  <main class="wrap">
+    <!-- PAGE: Watchlist (active au chargement) -->
+    <section class="page active" id="page-watchlist">
       <div class="card">
-        <h2>Portfolio</h2>
-        <p>Ici tu pourras gérer ton portefeuille (à coder plus tard).</p>
+        <h2>Watchlists (multi-listes)</h2>
+
+        <div class="row">
+          <label>Liste:
+            <select id="listSel"></select>
+          </label>
+          <button id="newList">Nouvelle</button>
+          <button id="renameList">Renommer</button>
+          <button id="deleteList">Supprimer</button>
+          <button id="editJson">Éditer JSON</button>
+          <span class="muted right" id="status">Prêt</span>
+        </div>
+
+        <div class="row">
+          <input id="sym" placeholder="ex: AAPL, SHOP.TO, 036570.KS" />
+          <button id="add">Ajouter</button>
+          <button id="refresh">Rafraîchir</button>
+          <label class="muted">Auto-refresh
+            <select id="auto">
+              <option value="0">off</option>
+              <option value="15">15s</option>
+              <option value="30">30s</option>
+              <option value="60" selected>60s</option>
+            </select>
+          </label>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Ticker</th><th>Nom</th><th>Prix</th><th>Var</th><th>%</th><th>Devise</th><th></th>
+            </tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
       </div>
+    </section>
+
+   <section class="page" id="page-portfolio" aria-labelledby="pf-title">
+  <div class="card">
+    <h2 id="pf-title">Portfolio</h2>
+    <p class="muted">Ajoute des positions et suis le P/L en direct.</p>
+
+    <!-- Formulaire d’ajout -->
+    <div class="row">
+      <input id="pf-symbol" placeholder="Ticker (ex: AAPL, SHOP.TO)" />
+      <input id="pf-shares" type="number" step="any" placeholder="Nbr d’actions" />
+      <input id="pf-avg" type="number" step="any" placeholder="Coût moyen / action" />
+      <button id="pf-add">Ajouter position</button>
+      <button id="pf-refresh">Rafraîchir</button>
+      <span class="muted right" id="pf-status">—</span>
     </div>
 
-    <!-- Section Historique -->
-    <div class="page" id="page-history" style="display:none">
+    
+
+    <!-- Liste / accordéon -->
+    <div class="accordion" id="pf-list"></div>
+  </div>
+  <!-- Résumé -->
+    <div class="row" style="gap:16px">
+      <div class="pill" id="pf-sum-value">Valeur des actifs: —</div>
+      <div class="pill" id="pf-sum-pl">Variation ($): —</div>
+      <div class="pill" id="pf-sum-plp">Variation (%): —</div>
+    </div>
+</section>
+
+
+    <!-- PAGE: Historique -->
+    <section class="page" id="page-history">
       <div class="card">
         <h2>Historique</h2>
         <p>Affichage de l’historique (placeholder).</p>
       </div>
-    </div>
+    </section>
 
-    <!-- Section Paramètres -->
-    <div class="page" id="page-settings" style="display:none">
+    <!-- PAGE: Paramètres -->
+    <section class="page" id="page-settings">
       <div class="card">
         <h2>Paramètres</h2>
         <p>Configuration de l’application (placeholder).</p>
       </div>
-    </div>
-  </div>
-</nav>
+    </section>
+  </main>
 
-<body>
-  <!-- Toast overlay
-<div id="toast-overlay" class="toast-overlay" aria-hidden="true">
-  <div class="toast-box" role="alert" aria-live="polite" aria-atomic="true">
-    <span id="toast-text"></span>
-  </div> -->
-</div>
-  <div class="wrap">
-    <div class="card">
-      <h2>Watchlists (multi-listes)</h2>
-
-      <div class="row">
-        <label>Liste:
-          <select id="listSel"></select>
-        </label>
-        <button id="newList">Nouvelle</button>
-        <button id="renameList">Renommer</button>
-        <button id="deleteList">Supprimer</button>
-        <button id="editJson">Éditer JSON</button>
-        <span class="muted right" id="status">Prêt</span>
-      </div>
-
-      <div class="row">
-        <input id="sym" placeholder="ex: AAPL, SHOP.TO, 036570.KS" />
-        <button id="add">Ajouter</button>
-        <button id="refresh">Rafraîchir</button>
-        <label class="muted">Auto-refresh
-          <select id="auto">
-            <option value="0">off</option>
-            <option value="15">15s</option>
-            <option value="30">30s</option>
-            <option value="60" selected>60s</option>
-          </select>
-        </label>
-      </div>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Ticker</th><th>Nom</th><th>Prix</th><th>Var</th><th>%</th><th>Devise</th><th></th>
-          </tr>
-        </thead>
-        <tbody id="tbody"></tbody>
-      </table>
-    </div>
-  </div>
-<body>
- 
   <!-- Modal JSON -->
   <div class="modal" id="jsonModal">
     <div>
@@ -108,9 +118,12 @@
       </div>
     </div>
   </div>
-<!-- Toast en bas d’écran -->
-<div id="toast" class="toast"><span id="toast-text"></span></div>
+
+  <!-- Toast en bas d’écran -->
+  <div id="toast" class="toast"><span id="toast-text"></span></div>
 
   <script src="app.js"></script>
+  <script src="portfolio.js"></script>
+
 </body>
 </html>

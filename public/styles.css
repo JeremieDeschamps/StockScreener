@@ -150,3 +150,104 @@ textarea{
 .toast.ok { border: 2px solid #10b981; }   /* succès = vert */
 .toast.error { border: 2px solid #ef4444; } /* erreur = rouge */
 
+/* Portfolio grid */
+#pf-list{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap:14px;
+  margin-top:12px;
+}
+
+/* Card style for each position */
+.pos {
+  background:#0c1324;
+  border:1px solid #1f2937;
+  border-radius:12px;
+  overflow:hidden;
+}
+
+/* Native accordion */
+.pos > summary{
+  list-style:none;            /* remove default arrow */
+  cursor:pointer;
+  display:flex;
+  align-items:baseline;
+  gap:12px;
+  padding:12px 14px;
+  background:#0f172a;
+  border-bottom:1px solid #1f2937;
+}
+.pos > summary::-webkit-details-marker{ display:none; }
+
+/* Header chips */
+.pos .sym{ font-weight:800; min-width:90px; }
+.pos .nm { color:#cbd5e1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.pos .price{ margin-left:auto; }
+.pos .pl.up{ color:#10b981; }
+.pos .pl.down{ color:#ef4444; }
+
+/* Body */
+.pos .body {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pos .row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.pos .k {
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+.pos .v {
+  font-weight: 700;
+}
+.pos .k{ color:#94a3b8; font-size:12px; }
+.pos .v{ font-weight:700; }
+
+/* Full-width action row */
+.pos .actions{ display:flex; gap:8px; margin-top:6px; width:100%; }
+#pf-list{ display:grid; grid-template-columns: 1fr; gap:14px; margin-top:12px; }
+
+
+.btn-danger{ border-color:#ef4444; }
+
+/* En-tête de la liste portfolio */
+.pf-head{
+  display:grid;
+  grid-template-columns: 120px 1fr 1fr;
+  gap:12px;
+  padding:6px 14px 8px;
+  color:#94a3b8;
+  font-size:12px;
+  border-bottom:1px dashed #1f2937;
+  margin-top:10px;
+}
+.pf-col-sym{ font-weight:600; }
+
+/* Lignes (summary) alignées sur l'en-tête */
+.pos > summary{
+  list-style:none;
+  cursor:pointer;
+  display:grid;
+  grid-template-columns: 120px 1fr 1fr; /* sym | prix | variation */
+  gap:12px;
+  align-items:baseline;
+  padding:10px 14px;
+  background:#0f172a;
+  border-bottom:1px solid #1f2937;
+}
+.pos > summary::-webkit-details-marker{ display:none; }
+
+/* Juste des chiffres dans la ligne */
+.pos .sym{ font-weight:800; }
+.pos .price{ }
+.pos .chg.up{ color:#10b981; }
+.pos .chg.down{ color:#ef4444; }
+
+
